@@ -1,0 +1,14 @@
+eureka:
+    client:
+        service-url:
+            defaulrZoon: http://localhost:8761/eureka
+spring:
+    application:
+        name: HOTEL-API
+    profiles:
+        active: dev
+server:
+    port: 8762
+mybatis:
+    mapper-locations:
+        - classpath:db/bmg/mapper/*.xml
