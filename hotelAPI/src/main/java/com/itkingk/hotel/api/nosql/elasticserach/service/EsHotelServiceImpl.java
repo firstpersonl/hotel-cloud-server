@@ -1,5 +1,6 @@
 package com.itkingk.hotel.api.nosql.elasticserach.service;
 
+import com.itkingk.hotel.api.mbg.model.EsHotel;
 import com.itkingk.hotel.api.mbg.model.Hotel;
 import com.itkingk.hotel.api.nosql.elasticserach.EsHotelRepository;
 import com.itkingk.hotel.api.service.HotelService;
@@ -34,13 +35,20 @@ public class EsHotelServiceImpl implements EsHotelService {
 
 	@Override
 	public int importAll() {
-		List<Hotel> allHotel = hotelService.getAll();
-		Iterable<Hotel> hotels = repository.saveAll(allHotel);
-		int result = 0;
-		for (Hotel hotel : hotels) {
-			result++;
+		List<Hotel> hotels = hotelService.getAll();
+		if (!CollectionUtils.isEmpty(hotels)) {
+			List<EsHotel> esHotels = new ArrayList<>(hotels.size());
+			for (Hotel hotel : hotels) {
+				EsHotel esHotel = new EsHotel();
+				esHotel.setHotelId(hotel.getHotelId());
+				esHotel.setAddress(hotel.getAddress());
+				esHotel.setName(hotel.getName());
+				esHotels.add(esHotel);
+			}
+			repository.saveAll(esHotels);
+			return esHotels.size();
 		}
-		return result;
+		return 0;
 	}
 
 	@Override
@@ -49,10 +57,14 @@ public class EsHotelServiceImpl implements EsHotelService {
 	}
 
 	@Override
-	public Hotel create(Long id) {
+	public EsHotel create(Long id) {
 		Hotel hotel = hotelService.getHotelById(id);
 		if (hotel != null) {
-			return repository.save(hotel);
+			EsHotel esHotel = new EsHotel();
+			esHotel.setHotelId(hotel.getHotelId());
+			esHotel.setAddress(hotel.getAddress());
+			esHotel.setName(hotel.getName());
+			return repository.save(esHotel);
 		}
 		return null;
 	}
@@ -60,18 +72,18 @@ public class EsHotelServiceImpl implements EsHotelService {
 	@Override
 	public void deletes(List<Long> ids) {
 		if (!CollectionUtils.isEmpty(ids)) {
-			List<Hotel> hotels = new ArrayList<>(ids.size());
+			List<EsHotel> esHotels = new ArrayList<>(ids.size());
 			for (Long id : ids) {
-				Hotel hotel = new Hotel();
-				hotel.setHotelId(id);
-				hotels.add(hotel);
+				EsHotel esHotel = new EsHotel();
+				esHotel.setHotelId(id);
+				esHotels.add(esHotel);
 			}
-			repository.deleteAll(hotels);
+			repository.deleteAll(esHotels);
 		}
 	}
 
 	@Override
-	public Page<Hotel> search(String name, Integer pageNum, Integer pageSize) {
+	public Page<EsHotel> search(String name, Integer pageNum, Integer pageSize) {
 		return repository.findByName(name, PageRequest.of(pageNum, pageSize));
 	}
 }

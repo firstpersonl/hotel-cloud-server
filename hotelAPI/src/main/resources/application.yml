@@ -12,3 +12,5 @@ server:
 mybatis:
     mapper-locations:
         - classpath:db/bmg/mapper/*.xml
+    configuration:
+        default-enum-type-handler: com.itkingk.hotel.api.handler.GeometryTypeHandler

@@ -5,7 +5,11 @@
     <id column="hotel_id" jdbcType="BIGINT" property="hotelId" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="telephone" jdbcType="VARCHAR" property="telephone" />
+    <result column="point" property="point" jdbcType="OTHER" typeHandler="com.itkingk.hotel.api.handler.GeometryTypeHandler"/>
   </resultMap>
+
   <sql id="Example_Where_Clause">
     <where>
       <foreach collection="oredCriteria" item="criteria" separator="or">
@@ -65,7 +69,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    hotel_id, name, address
+    hotel_id, name, address, phone, telephone, point
   </sql>
   <select id="selectByExample" parameterType="com.itkingk.hotel.api.mbg.model.HotelExample" resultMap="BaseResultMap">
     select
@@ -98,33 +102,51 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.itkingk.hotel.api.mbg.model.Hotel">
-    insert into hotel (hotel_id, name, address
-      )
-    values (#{hotelId,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}
-      )
+    <selectKey keyProperty="hotelId" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into hotel (name, address, phone, 
+      telephone, point)
+    values (#{name,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
+      #{telephone,jdbcType=VARCHAR}, #{point,jdbcType=OTHER,typeHandler=com.itkingk.hotel.api.handler.GeometryTypeHandler})
   </insert>
   <insert id="insertSelective" parameterType="com.itkingk.hotel.api.mbg.model.Hotel">
+    <selectKey keyProperty="hotelId" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into hotel
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="hotelId != null">
-        hotel_id,
-      </if>
       <if test="name != null">
         name,
       </if>
       <if test="address != null">
         address,
       </if>
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="telephone != null">
+        telephone,
+      </if>
+      <if test="point != null">
+        point,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="hotelId != null">
-        #{hotelId,jdbcType=BIGINT},
-      </if>
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
       </if>
       <if test="address != null">
         #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="telephone != null">
+        #{telephone,jdbcType=VARCHAR},
+      </if>
+      <if test="point != null">
+        GeomFromText(#{point,jdbcType=OTHER,typeHandler=com.itkingk.hotel.api.handler.GeometryTypeHandler}),
       </if>
     </trim>
   </insert>
@@ -146,6 +168,15 @@
       <if test="record.address != null">
         address = #{record.address,jdbcType=VARCHAR},
       </if>
+      <if test="record.phone != null">
+        phone = #{record.phone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.telephone != null">
+        telephone = #{record.telephone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.point != null">
+        point = GeomFromText(#{record.point,jdbcType=OTHER,typeHandler=com.itkingk.hotel.api.handler.GeometryTypeHandler}),
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -155,7 +186,10 @@
     update hotel
     set hotel_id = #{record.hotelId,jdbcType=BIGINT},
       name = #{record.name,jdbcType=VARCHAR},
-      address = #{record.address,jdbcType=VARCHAR}
+      address = #{record.address,jdbcType=VARCHAR},
+      phone = #{record.phone,jdbcType=VARCHAR},
+      telephone = #{record.telephone,jdbcType=VARCHAR},
+      point = GeomFromText(#{record.point,jdbcType=OTHER,typeHandler=com.itkingk.hotel.api.handler.GeometryTypeHandler})
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -169,13 +203,25 @@
       <if test="address != null">
         address = #{address,jdbcType=VARCHAR},
       </if>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="telephone != null">
+        telephone = #{telephone,jdbcType=VARCHAR},
+      </if>
+      <if test="point != null">
+        point = GeomFromText(#{point,jdbcType=OTHER,typeHandler=com.itkingk.hotel.api.handler.GeometryTypeHandler}),
+      </if>
     </set>
     where hotel_id = #{hotelId,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.itkingk.hotel.api.mbg.model.Hotel">
     update hotel
     set name = #{name,jdbcType=VARCHAR},
-      address = #{address,jdbcType=VARCHAR}
+      address = #{address,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      telephone = #{telephone,jdbcType=VARCHAR},
+      point = GeomFromText(#{point,jdbcType=OTHER,typeHandler=com.itkingk.hotel.api.handler.GeometryTypeHandler})
     where hotel_id = #{hotelId,jdbcType=BIGINT}
   </update>
 </mapper>

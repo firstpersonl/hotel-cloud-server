@@ -2,10 +2,9 @@ package com.itkingk.hotel.api.mbg.mapper;
 
 import com.itkingk.hotel.api.mbg.model.Hotel;
 import com.itkingk.hotel.api.mbg.model.HotelExample;
+import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
 
 @Repository
 public interface HotelMapper {

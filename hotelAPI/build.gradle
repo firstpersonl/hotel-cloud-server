@@ -16,22 +16,25 @@ dependencies {
     compile group: 'org.mybatis.generator', name: 'mybatis-generator-core', version: '1.3.5'
     compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.15'
     compile group: 'org.mybatis.spring.boot', name: 'mybatis-spring-boot-starter', version: '1.3.2'
+    // https://mvnrepository.com/artifact/org.postgresql/postgresql
+    compile group: 'org.postgresql', name: 'postgresql', version: '42.2.5'
+
 }
 
 
 //移动生成的mapper.java文件
 task copyGeneratorMapper(type: Copy) {
     //step 1
-    from "build/generated/mapper/com/itkingk/hotel/api/mbg/mapper"
+    from "out/production/mbg/mapper/com/itkingk/hotel/api/mbg/mapper"
     into "src/main/java/com/itkingk/hotel/api/mbg/mapper"
 }
 task copyGeneratorModel(type: Copy) {
     //step 2
-    from "build/generated/model/com/itkingk/hotel/api/mbg/model"
+    from "out/production/mbg/model/com/itkingk/hotel/api/mbg/model"
     into "src/main/java/com/itkingk/hotel/api/mbg/model"
 }
 task copyGeneratorXml(type: Copy) {
     //step 3
-    from "build/generated/mapperXML/com/kingk/mall/mbg/mapper"
+    from "out/production/mbg/mapperXML/com/itkingk/hotel/api/mapper"
     into "src/main/resources/db/bmg/mapper"
 }

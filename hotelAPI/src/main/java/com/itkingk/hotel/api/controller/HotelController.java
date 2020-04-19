@@ -1,5 +1,6 @@
 package com.itkingk.hotel.api.controller;
 
+import com.itkingk.hotel.api.mbg.model.EsHotel;
 import com.itkingk.hotel.api.mbg.model.Hotel;
 import com.itkingk.hotel.api.nosql.elasticserach.service.EsHotelService;
 import com.itkingk.hotel.api.service.HotelService;
@@ -8,8 +9,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 /**
  * @author kingk
@@ -43,8 +42,8 @@ public class HotelController {
 	}
 
 	@GetMapping(value = "search")
-	public ResponseEntity<Page<Hotel>> searchHotel(@RequestParam String keyword, Pageable pageable) {
-		Page<Hotel> search = esHotelService.search(keyword, pageable.getPageNumber(), pageable.getPageSize());
+	public ResponseEntity<Page<EsHotel>> searchHotel(@RequestParam String keyword, Pageable pageable) {
+		Page<EsHotel> search = esHotelService.search(keyword, pageable.getPageNumber(), pageable.getPageSize());
 		return ResponseEntity.ok(search);
 	}
 }

@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
 
 <generatorConfiguration>
-    <properties resource="../../resources/main/db/generator.properties"/>
+    <properties resource="../resources/db/generator.properties"/>
     <context id="MySqlContext" targetRuntime="MyBatis3" defaultModelType="flat">
         <property name="beginningDelimiter" value="`"/>
         <property name="endingDelimiter" value="`"/>
@@ -29,15 +29,15 @@
             <property name="nullCatalogMeansCurrent" value="true" />
         </jdbcConnection>
         <!--指定生成model的路径-->
-        <javaModelGenerator targetPackage="com.itkingk.hotel.api.mbg.model" targetProject="G:/IdeaProjects/hotel-spring-cloud-server/server/hotelAPI/build/generated/model"/>
+        <javaModelGenerator targetPackage="com.itkingk.hotel.api.mbg.model" targetProject="G:/IdeaProjects/hotel-spring-cloud-server/server/hotelAPI/out/production/mbg/model"/>
         <!--指定生成mapper.xml的路径-->
-        <sqlMapGenerator targetPackage="com.kingk.mall.mbg.mapper" targetProject="G:/IdeaProjects/hotel-spring-cloud-server/server/hotelAPI/build/generated/mapperXML"/>
+        <sqlMapGenerator targetPackage="com.itkingk.hotel.api.mapper" targetProject="G:/IdeaProjects/hotel-spring-cloud-server/server/hotelAPI/out/production/mbg/mapperXML"/>
         <!--指定生成mapper接口的的路径-->
         <javaClientGenerator type="XMLMAPPER" targetPackage="com.itkingk.hotel.api.mbg.mapper"
-                             targetProject="G:/IdeaProjects/hotel-spring-cloud-server/server/hotelAPI/build/generated/mapper"/>
+                             targetProject="G:/IdeaProjects/hotel-spring-cloud-server/server/hotelAPI/out/production/mbg/mapper"/>
         <!--生成全部表tableName设为%-->
         <table tableName="%">
-            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+            <generatedKey column="hotel_id" sqlStatement="MySql" identity="true"/>
         </table>
     </context>
 </generatorConfiguration>

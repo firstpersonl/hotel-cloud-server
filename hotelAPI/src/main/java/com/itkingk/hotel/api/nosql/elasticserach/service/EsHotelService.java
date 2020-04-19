@@ -1,6 +1,6 @@
 package com.itkingk.hotel.api.nosql.elasticserach.service;
 
-import com.itkingk.hotel.api.mbg.model.Hotel;
+import com.itkingk.hotel.api.mbg.model.EsHotel;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
@@ -28,7 +28,7 @@ public interface EsHotelService {
 	 * @param id 酒店ID
 	 * @return
 	 */
-	Hotel create(Long id);
+	EsHotel create(Long id);
 
 	/**
 	 * 批量删除
@@ -43,5 +43,5 @@ public interface EsHotelService {
 	 * @param pageSize 分页大小
 	 * @return
 	 */
-	Page<Hotel> search(String name, Integer pageNum, Integer pageSize);
+	Page<EsHotel> search(String name, Integer pageNum, Integer pageSize);
 }
