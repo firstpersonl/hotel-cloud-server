@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
+ * PostGIS常用函数以及使用方法见<a>https://blog.csdn.net/u013420816/article/details/53727960</a>,<a href='http://postgis.net/install/'>PostGIS</a>
  * @author kingk
  * @date 2020/4/20 0:08
  */
@@ -18,16 +19,13 @@ import java.sql.SQLException;
 public class GeometryTypeHandler extends BaseTypeHandler<PGpoint> {
 	@Override
 	public void setNonNullParameter(PreparedStatement ps, int i, PGpoint parameter, JdbcType jdbcType) throws SQLException {
-		parameter.setType("point");
-		ps.setObject(i,parameter.getValue());
+		ps.setObject(i,"POINT("+ parameter.x +" "+ parameter.y +")");
 	}
 
 	@Override
 	public PGpoint getNullableResult(ResultSet rs, String columnName) throws SQLException {
-		byte[] object = (byte[]) rs.getObject(columnName);
-		PGpoint pGpoint = new PGpoint();
-		pGpoint.setByteValue(object,0);
-		return pGpoint;
+		String pointStr = ((String) rs.getObject(columnName)).replace(" ", ",").replace("POINT","");
+		return new PGpoint(pointStr);
 	}
 
 	@Override

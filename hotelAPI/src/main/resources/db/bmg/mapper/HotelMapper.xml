@@ -69,7 +69,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    hotel_id, name, address, phone, telephone, point
+    hotel_id, `name`, address, phone, telephone, ST_AsText(`point`) as `point`
   </sql>
   <select id="selectByExample" parameterType="com.itkingk.hotel.api.mbg.model.HotelExample" resultMap="BaseResultMap">
     select
